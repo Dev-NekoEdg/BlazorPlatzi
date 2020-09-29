@@ -1,0 +1,31 @@
+﻿<h3>TestOne</h3>
+
+@* al igula que el razor de MVC, acá el @ indica el inicio de las sentencias. *@
+@* bind-value llena el valor del control. como el .val() de JQuery. *@
+<input type="text" @bind-value="@message"/>
+<input type="text" @bind-value="@text" />
+
+
+<input type="button" value="Click me" @onclick="ChangeText" />
+
+
+@*acá puede ir código de C# para manejar la página.*@
+@code {
+
+    [Parameter]
+    public string Message { get; set; }
+
+    string message = "Texto Pureba";
+    string text;
+
+    private void ChangeText() {
+
+        message = text;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        message = Message;
+    }
+}
