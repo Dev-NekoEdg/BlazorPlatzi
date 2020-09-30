@@ -29,14 +29,10 @@ namespace BlazorPlatzi
              * Reemplazo el override del método OnConfiguring en la clase InventaryContext por esta línea.
              * en la colección de servicio agrego el DBContext del tipo de contexto que creamos en DataAccess
              * y a ese contexto, le paso por parameto la cadena de conexión, que la vamos a obtener del archivo appsettings.json.
-             * El segundo parametro de UseSqlServer es un delegado, indicando que el proyecto donde se van a generar los archivos
-             * de las migraciones va a ser en el proyecto de "DataAccess".
-             * Con esto se evita cambiar el proyecto de ejecución (Set as startup project) cada vez que tengamos que hacer una migración.
+             * En el Nuget Package console, colocamos el proyecto de DataAccess.
             */
             services.AddDbContext<InventaryContext>( 
-                opt => opt.UseSqlServer(Configuration.GetConnectionString("DbConnection"),
-                                        m => m.MigrationsAssembly("DataAccess")
-                                        )
+                opt => opt.UseSqlServer(Configuration.GetConnectionString("DbConnection"))
             );
 
         }
