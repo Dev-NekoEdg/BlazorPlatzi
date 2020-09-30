@@ -16,5 +16,6 @@ namespace Entities
         public string Name { get; set; }
 
 
+        public ICollection<ProductEntity> Products { get; set; }
     }
 }

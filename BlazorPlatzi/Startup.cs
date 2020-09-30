@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BlazorPlatzi.Data;
+using DataAccess;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using BlazorPlatzi.Data;
 
 namespace BlazorPlatzi
 {
@@ -29,6 +25,20 @@ namespace BlazorPlatzi
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            /*
+             * Reemplazo el override del método OnConfiguring en la clase InventaryContext por esta línea.
+             * en la colección de servicio agrego el DBContext del tipo de contexto que creamos en DataAccess
+             * y a ese contexto, le paso por parameto la cadena de conexión, que la vamos a obtener del archivo appsettings.json.
+             * El segundo parametro de UseSqlServer es un delegado, indicando que el proyecto donde se van a generar los archivos
+             * de las migraciones va a ser en el proyecto de "DataAccess".
+             * Con esto se evita cambiar el proyecto de ejecución (Set as startup project) cada vez que tengamos que hacer una migración.
+            */
+            services.AddDbContext<InventaryContext>( 
+                opt => opt.UseSqlServer(Configuration.GetConnectionString("DbConnection"),
+                                        m => m.MigrationsAssembly("DataAccess")
+                                        )
+            );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

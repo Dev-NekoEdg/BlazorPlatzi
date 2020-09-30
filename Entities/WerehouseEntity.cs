@@ -18,5 +18,7 @@ namespace Entities
         [Required]
         [StringLength(100)]
         public string WerehouseAddress { get; set; }
+
+        public ICollection<StorageEntity> Storages { get; set; }
     }
 }
