@@ -29,6 +29,31 @@ namespace DataAccess
         //    }
         //}
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<CategoryEntity>().HasData(
+                new CategoryEntity { CategoryId = "ASH", Name = "Aseo Hogar" },
+                new CategoryEntity { CategoryId = "ASP", Name = "Aseo Personal" });
+
+            modelBuilder.Entity<WerehouseEntity>().HasData(
+                new WerehouseEntity
+                {
+                    WerehouseId = Guid.NewGuid().ToString(),
+                    WerehouseName = "Bodega Celtral",
+                    WerehouseAddress = "Av evergreen No. 704"
+                },
+                new WerehouseEntity
+                {
+                    WerehouseId = Guid.NewGuid().ToString(),
+                    WerehouseName = "Bodega Norte",
+                    WerehouseAddress = "Calle falsa 123"
+                }
+                );
+        }
+
         public DbSet<CategoryEntity> Categories { get; set; }
 
         public DbSet<InputOutputEntity> InputOutputs { get; set; }
