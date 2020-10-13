@@ -25,16 +25,11 @@ namespace BlazorPlatzi
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-            /*
-             * Reemplazo el override del método OnConfiguring en la clase InventaryContext por esta línea.
-             * en la colección de servicio agrego el DBContext del tipo de contexto que creamos en DataAccess
-             * y a ese contexto, le paso por parameto la cadena de conexión, que la vamos a obtener del archivo appsettings.json.
-             * En el Nuget Package console, colocamos el proyecto de DataAccess.
-            */
-            services.AddDbContext<InventaryContext>( 
-                opt => opt.UseSqlServer(Configuration.GetConnectionString("DbConnection"))
-            );
 
+            //services.AddDbContext<InventaryContext>(
+            //    opt => opt.UseSqlServer(Configuration.GetConnectionString("DbConnection"))
+            //);
+            //services.AddSingleton<InventaryContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

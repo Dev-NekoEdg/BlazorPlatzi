@@ -1,0 +1,74 @@
+﻿@using Entities
+@using Business
+
+<h3>Lista de productos</h3>
+<br />
+<br />
+
+<div class="row">
+    <div class="col-2">
+        Categorias:
+    </div>
+    <div class="col-2">
+        <select class="form-control" @onchange="CategoryChanged">
+            <option value="">Seleccione...</option>
+            @foreach (var categorie in categories)
+            {
+                <option value="@categorie.CategoryId">@categorie.Name</option>
+            }
+        </select>    
+    </div>
+</div>
+
+
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Product Id</th>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Categoria</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in tempProducts)
+            {
+                <tr>
+                    <td>@product.ProductId</td>
+                    <td>@product.ProductName</td>
+                    <td>@product.TotalQuantity</td>
+                    <td>@product.CategoryId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+@code {
+    List<ProductEntity> products = new List<ProductEntity>();
+    List<ProductEntity> tempProducts = new List<ProductEntity>(); // variable para guardar la informacion de los filtros es en cliente.
+
+    List<CategoryEntity> categories = new List<CategoryEntity>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = BusinessCategory.CategoryList();
+        products = BusinessProduct.ProductList();
+        tempProducts = products;
+    }
+
+    private void CategoryChanged(ChangeEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(e.Value.ToString()))
+        {
+            tempProducts = products.Where(p => p.CategoryId == e.Value.ToString()).ToList();
+        }
+
+    }
+}

@@ -17,17 +17,21 @@ namespace DataAccess
 
         }
 
+        public InventaryContext()
+        {
+        }
+
         /*
          Este método se configura la cadena de conexion para la DB. no voy a utilizar este método aquí, sino que lo voy a inyectar desde el startup.cs.
          El middleware de "UseSqlServer()" se puede usar luego de instalar el paquete "Microsoft.EntityframeworkCore.SqlServer".
          */
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer("Server=DESKTOP-8EL03UO\\SQLEXPRESS; Database = Corresponsal; User Id =sa; Password=SqlEx2020*");
-        //    }
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=DESKTOP-8EL03UO\\SQLEXPRESS; Database = Inventary; User Id =sa; Password=SqlEx2020*");
+            }
+        }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

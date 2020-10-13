@@ -1,0 +1,55 @@
+﻿@using Entities
+@using Business 
+
+<div>
+    @*el Editform es el form de HTML*@
+    <EditForm Model="newProduct">
+        <div class="form-group">
+            <label>Referencia:</label>
+            <InputText @bind-Value="newProduct.ProductId" class="form-control"></InputText>
+        </div>
+
+        <div class="form-group">
+            <label>Nombre del Producto:</label>
+            <InputText @bind-Value="newProduct.ProductName" class="form-control"></InputText>
+        </div>
+
+        <div class="form-group">
+            <label>Descipci&oacute;n:</label>
+            <InputText @bind-Value="newProduct.ProductDescription" class="form-control"></InputText>
+        </div>
+
+        <div class="form-group">
+            <label>Categoria:</label>
+            <InputSelect @bind-Value="newProduct.CategoryId"  class="form-control">
+                @foreach (var item in Categories)
+                {
+                    <option value="@item.CategoryId" >@item.Name</option>
+                }
+            </InputSelect>
+        </div>
+
+        @*el "@" en el onclick indica que es un evento del servidor*@
+        <input type="button" value="agregar producto" @onclick="SaveProduct" />
+
+    </EditForm>
+
+</div>
+
+@code {
+
+    // Este objeto es el modelo de editForm.
+    ProductEntity newProduct = new ProductEntity(); 
+    List<CategoryEntity> Categories = new List<CategoryEntity>();
+
+
+    protected override async Task OnInitializedAsync() {
+        Categories = BusinessCategory.CategoryList();
+    }
+
+    // se coloca el métode estatico pára que solo sea llamar la clase
+    private void SaveProduct() {
+        BusinessProduct.ProductInsert(newProduct);
+
+    }
+}
