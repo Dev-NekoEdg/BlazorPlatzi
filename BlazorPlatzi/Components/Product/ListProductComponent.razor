@@ -29,17 +29,19 @@
                 <th>Nombre</th>
                 <th>Cantidad</th>
                 <th>Categoria</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var product in tempProducts)
             {
-                <tr>
-                    <td>@product.ProductId</td>
-                    <td>@product.ProductName</td>
-                    <td>@product.TotalQuantity</td>
-                    <td>@product.CategoryId</td>
-                </tr>
+            <tr>
+                <td>@product.ProductId</td>
+                <td>@product.ProductName</td>
+                <td>@product.TotalQuantity</td>
+                <td>@product.CategoryId</td>
+                <td><a href="products/update/@product.ProductId" class="btn btn-outline-primary" >Editar</a></td>
+            </tr>
             }
         </tbody>
     </table>

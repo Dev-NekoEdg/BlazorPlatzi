@@ -9,6 +9,14 @@ namespace Business
 {
     public class BusinessProduct
     {
+
+        public static ProductEntity ProductById(string id)
+        {
+            using (var contexto = new InventaryContext())
+            {
+                return contexto.Products.FirstOrDefault(p=> p.ProductId == id);
+            }
+        }
         public static List<ProductEntity> ProductList()
         {
             using (var contexto = new InventaryContext())

@@ -1,0 +1,12 @@
+﻿@page "/category/update/{categoriaId}"
+@using BlazorPlatzi.Components.Category
+
+
+<UpdateComponent Id="@categoriaId"></UpdateComponent>
+
+
+@code {
+    [Parameter]
+    public string categoriaId { get; set; }
+
+}

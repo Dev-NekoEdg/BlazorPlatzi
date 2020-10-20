@@ -1,0 +1,16 @@
+﻿@*para pasar parametros por URL es con llaves {} y dentro el nombre del parametro, tiene que ser el mismo nombre del parametro por url. *@
+@page "/products/update/{Id}" 
+@using BlazorPlatzi.Components.Product
+
+
+<UpdateComponent productId="@Id"></UpdateComponent>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    //protected override Task OnInitializedAsync()
+    //{
+    //    //id = productId;
+    //}
+}

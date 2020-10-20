@@ -1,0 +1,51 @@
+﻿@using Entities
+@using Business
+@inject NavigationManager NavManager
+
+<h3>Nueva categoria</h3>
+<hr />
+
+<EditForm Model="category">
+    <div class="row">
+        <div class="col-8">
+
+            <div class="row form-group">
+                <div class="col-3">
+                    <label>Categoria Id</label>
+                </div>
+                <div class="col-5">
+                    <InputText class="form-group" @bind-Value="category.CategoryId" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    Descripci&oacute;n
+                </div>
+                <div class="col-5">
+                    <InputText class="form-group" @bind-Value="category.Name" />
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-6">
+                    <input type="button" class="btn btn-primary" value="Guardar" @onclick ="SaveCategory" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</EditForm>
+
+
+@code {
+
+    CategoryEntity category = new CategoryEntity();
+
+    private void SaveCategory() {
+
+        BusinessCategory.CategoryInsert(category);
+        NavManager.NavigateTo("category/list");
+
+    }
+
+}

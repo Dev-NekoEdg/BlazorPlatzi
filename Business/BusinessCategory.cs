@@ -9,6 +9,13 @@ namespace Business
 {
     public class BusinessCategory
     {
+        public static CategoryEntity CategoryById(string id)
+        {
+            using (var contexto = new InventaryContext())
+            {
+                return contexto.Categories.FirstOrDefault(c=> c.CategoryId == id);
+            }
+        }
 
         public static List<CategoryEntity> CategoryList() 
         {
@@ -18,7 +25,7 @@ namespace Business
             }
         }
 
-        public void CategoryInsert(CategoryEntity categoryEntity)
+        public static void CategoryInsert(CategoryEntity categoryEntity)
         {
             using (var contexto = new InventaryContext())
             {
@@ -27,7 +34,7 @@ namespace Business
             }
         }
 
-        public void CategoryUpdate(CategoryEntity categoryEntity)
+        public static void CategoryUpdate(CategoryEntity categoryEntity)
         {
             using (var contexto = new InventaryContext())
             {

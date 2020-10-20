@@ -1,0 +1,61 @@
+﻿@using Entities
+@using Business
+@inject NavigationManager NavManager
+
+<h3>Modificar categoria</h3>
+<hr />
+
+<EditForm Model="category">
+    <div class="row">
+        <div class="col-8">
+
+            <div class="row form-group">
+                <div class="col-3">
+                    <label>Categoria Id</label>
+                </div>
+                <div class="col-5">
+                    <InputText class="form-group" @bind-Value="category.CategoryId" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    Descripci&oacute;n
+                </div>
+                <div class="col-5">
+                    <InputText class="form-group" @bind-Value="category.Name" />
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-6">
+                    <input type="button" class="btn btn-primary" value="Guardar" @onclick="UpdateCategory" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+
+    CategoryEntity category = new CategoryEntity();
+
+    protected override async Task OnInitializedAsync()
+    {
+        category = BusinessCategory.CategoryById(Id);
+    }
+
+
+    private void UpdateCategory()
+    {
+
+        BusinessCategory.CategoryUpdate(category);
+        NavManager.NavigateTo("category/list");
+
+    }
+
+}

@@ -1,38 +1,37 @@
 ﻿@using Entities
-@using Business 
-
+@using Business
 @inject NavigationManager NavManager
 
 <div>
     @*el Editform es el form de HTML*@
-    <EditForm Model="newProduct">
+    <EditForm Model="Product">
         <div class="form-group">
             <label>Referencia:</label>
-            <InputText @bind-Value="newProduct.ProductId" class="form-control"></InputText>
+            <InputText @bind-Value="Product.ProductId" class="form-control" readonly></InputText>
         </div>
 
         <div class="form-group">
             <label>Nombre del Producto:</label>
-            <InputText @bind-Value="newProduct.ProductName" class="form-control"></InputText>
+            <InputText @bind-Value="Product.ProductName" class="form-control"></InputText>
         </div>
 
         <div class="form-group">
             <label>Descipci&oacute;n:</label>
-            <InputText @bind-Value="newProduct.ProductDescription" class="form-control"></InputText>
+            <InputText @bind-Value="Product.ProductDescription" class="form-control"></InputText>
         </div>
 
         <div class="form-group">
             <label>Categoria:</label>
-            <InputSelect @bind-Value="newProduct.CategoryId"  class="form-control">
+            <InputSelect @bind-Value="Product.CategoryId" class="form-control">
                 @foreach (var item in Categories)
                 {
-                    <option value="@item.CategoryId" >@item.Name</option>
+                    <option value="@item.CategoryId">@item.Name</option>
                 }
             </InputSelect>
         </div>
 
         @*el "@" en el onclick indica que es un evento del servidor*@
-        <input type="button" value="agregar producto" @onclick="SaveProduct" />
+        <input type="button" class="btn btn-primary" value="Actualizar producto" @onclick="UpdateProduct" />
 
     </EditForm>
 
@@ -40,18 +39,25 @@
 
 @code {
 
+    // Parametro que se va a pasar por url.
+    [Parameter]
+    public string productId { get; set; }
+
     // Este objeto es el modelo de editForm.
-    ProductEntity newProduct = new ProductEntity(); 
+    ProductEntity Product = new ProductEntity();
     List<CategoryEntity> Categories = new List<CategoryEntity>();
 
 
-    protected override async Task OnInitializedAsync() {
+    protected override async Task OnInitializedAsync()
+    {
         Categories = BusinessCategory.CategoryList();
+        Product = BusinessProduct.ProductById(productId);
     }
 
     // se coloca el métode estatico pára que solo sea llamar la clase
-    private void SaveProduct() {
-        BusinessProduct.ProductInsert(newProduct);
+    private void UpdateProduct()
+    {
+        BusinessProduct.ProductUpdate(Product);
         NavManager.NavigateTo("products/list");
     }
 }
