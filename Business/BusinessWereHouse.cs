@@ -9,7 +9,7 @@ namespace Business
 {
     public class BusinessWereHouse
     {
-        public List<WerehouseEntity> WereHouseList()
+        public static List<WerehouseEntity> WereHouseList()
         {
             using (var contexto = new InventaryContext())
             {
@@ -17,7 +17,15 @@ namespace Business
             }
         }
 
-        public void WereHouseInsert(WerehouseEntity werehouseEntity)
+        public static WerehouseEntity WereHouseById(string id)
+        {
+            using (var contexto = new InventaryContext())
+            {
+                return contexto.Werehouses.ToList().FirstOrDefault(wh=> wh.WerehouseId == id);
+            }
+        }
+
+        public static void WereHouseInsert(WerehouseEntity werehouseEntity)
         {
             using (var contexto = new InventaryContext())
             {
@@ -26,7 +34,7 @@ namespace Business
             }
         }
 
-        public void WereHouseUpdate(WerehouseEntity werehouseEntity)
+        public static void WereHouseUpdate(WerehouseEntity werehouseEntity)
         {
             using (var contexto = new InventaryContext())
             {

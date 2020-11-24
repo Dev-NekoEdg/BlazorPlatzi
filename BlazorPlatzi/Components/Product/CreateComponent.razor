@@ -18,21 +18,22 @@
 
         <div class="form-group">
             <label>Descipci&oacute;n:</label>
-            <InputText @bind-Value="newProduct.ProductDescription" class="form-control"></InputText>
+            <InputTextArea @bind-Value="newProduct.ProductDescription"  class="form-control"></InputTextArea>
         </div>
 
         <div class="form-group">
             <label>Categoria:</label>
-            <InputSelect @bind-Value="newProduct.CategoryId"  class="form-control">
+            <InputSelect @bind-Value="newProduct.CategoryId" class="form-control">
+                <option value="" >Seleccione...</option>
                 @foreach (var item in Categories)
                 {
-                    <option value="@item.CategoryId" >@item.Name</option>
+                    <option value="@item.CategoryId">@item.Name</option>
                 }
             </InputSelect>
         </div>
 
         @*el "@" en el onclick indica que es un evento del servidor*@
-        <input type="button" value="agregar producto" @onclick="SaveProduct" />
+        <input type="button" class="btn btn-outline-primary" value="agregar producto" @onclick="SaveProduct" />
 
     </EditForm>
 

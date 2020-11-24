@@ -9,7 +9,7 @@ namespace Business
 {
     public class BusinessStorage
     {
-        public List<StorageEntity> StorageList()
+        public static List<StorageEntity> StorageList()
         {
             using (var contexto = new InventaryContext())
             {
@@ -17,7 +17,17 @@ namespace Business
             }
         }
 
-        public void StorageInsert(StorageEntity storageEntity)
+        public static bool IsProductOnWerehouse(string id) 
+        {
+            using (var contexto = new InventaryContext())
+            {
+                var product = contexto.Storages.ToList().Where(p => p.StoregeId == id);
+
+                return product.Any();
+            }
+        }
+
+        public static void StorageInsert(StorageEntity storageEntity)
         {
             using (var contexto = new InventaryContext())
             {
@@ -26,7 +36,7 @@ namespace Business
             }
         }
 
-        public void StorageUpdate(StorageEntity storageEntity)
+        public static void StorageUpdate(StorageEntity storageEntity)
         {
             using (var contexto = new InventaryContext())
             {

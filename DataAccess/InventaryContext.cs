@@ -29,7 +29,7 @@ namespace DataAccess
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-8EL03UO\\SQLEXPRESS; Database = Inventary; User Id =sa; Password=SqlEx2020*");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-2L4PD83; Database = Inventary; User Id =sa; Password=SqlEx2020*");
             }
         }
 
