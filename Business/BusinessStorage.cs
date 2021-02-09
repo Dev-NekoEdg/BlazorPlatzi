@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DataAccess;
 using Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business
 {
@@ -14,6 +15,18 @@ namespace Business
             using (var contexto = new InventaryContext())
             {
                 return contexto.Storages.ToList();
+            }
+        }
+
+        public static List<StorageEntity> StorageListByWerehouse(string werehouse)
+        {
+            using (var contexto = new InventaryContext())
+            {
+                return contexto.Storages.
+                    Include(s=> s.Product). // para que el include funcione necesita de la libreria Microsoft.EntityFrameworkCore;
+                    Include(s => s.Werehouses).
+                    Where(s=> s.WerehouseId == werehouse).
+                    ToList();
             }
         }
 

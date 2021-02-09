@@ -19,5 +19,15 @@ namespace Entities
 
         [Required]
         public bool IsInput { get; set; }
+
+        // Relación con tabla Storage.
+        public string StorageId { get; set; }
+
+        public StorageEntity Storage { get; set; }
+
+        public InputOutputEntity()
+        {
+            this.InOutId = Guid.NewGuid().ToString();
+        }
     }
 }

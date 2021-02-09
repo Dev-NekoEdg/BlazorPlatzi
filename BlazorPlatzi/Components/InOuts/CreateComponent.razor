@@ -1,0 +1,113 @@
+﻿@using Entities
+@using Business
+
+<div class="form-group">
+    <select class="form-control" @onchange="OnChangeWerehouse">
+        <option value="">Seleccione...</option>
+        @foreach (var item in werehouses)
+        {
+            <option value="@item.WerehouseId">@item.WerehouseName</option>
+        }
+    </select>
+    <hr />
+
+    <EditForm Model="inputOutput">
+        <div class="form-group">
+            <InputSelect class="form-control" @bind-Value="inputOutput.StorageId">
+                <option value="">Seleccione...</option>
+                @foreach (var storage in storages)
+                {
+                    <option value="@storage.StoregeId">@storage.Product.ProductName</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="form-group">
+            <label>Cantidad:</label>
+            <InputNumber class="form-control" @bind-Value="inputOutput.Quantity"></InputNumber>
+        </div>
+        <div class="form-group">
+            <label>Es una entrada?:</label>
+            <InputCheckbox class="form-control" @bind-Value="inputOutput.IsInput"></InputCheckbox>
+        </div>
+        <br />
+        <input type="submit" value="@valueButton" class="form-control" @onclick="Save" />
+    </EditForm>
+
+    <div class="text-center">
+        @messageFinal
+    </div>
+</div>
+
+@code {
+
+    InputOutputEntity inputOutput = new InputOutputEntity();
+
+    ProductEntity product = new ProductEntity();
+    StorageEntity storageEntity = new StorageEntity();
+
+    List<WerehouseEntity> werehouses = new List<WerehouseEntity>();
+    List<StorageEntity> storages = new List<StorageEntity>();
+
+    string valueButton => inputOutput.IsInput ? "Registrar Entrada" : "Registrar Salida";
+    string messageFinal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        werehouses = BusinessWereHouse.WereHouseList();
+    }
+
+    private void OnChangeWerehouse(ChangeEventArgs e)
+    {
+        var id = e.Value.ToString();
+        storages = BusinessStorage.StorageListByWerehouse(id);
+    }
+
+    private void Save()
+    {
+
+        storageEntity = storages.LastOrDefault(s => s.StoregeId == inputOutput.StorageId);
+        product = storageEntity.Product;
+
+        if (inputOutput.IsInput)
+        {
+            storageEntity.PartialQuantity += inputOutput.Quantity;
+            BusinessStorage.StorageUpdate(storageEntity);
+
+            product.TotalQuantity += inputOutput.Quantity;
+            BusinessProduct.ProductUpdate(product);
+
+            messageFinal = $"El Producto { product.ProductName} ha sido actualizado";
+        }
+        else
+        {
+            if (IsBiggerThannZero(inputOutput.Quantity, storageEntity.PartialQuantity))
+            {
+
+                storageEntity.PartialQuantity -= inputOutput.Quantity;
+                BusinessStorage.StorageUpdate(storageEntity);
+
+                product.TotalQuantity -= inputOutput.Quantity;
+                BusinessProduct.ProductUpdate(product);
+
+                messageFinal = $"El Producto { product.ProductName} ha sido actualizado";
+
+            }
+            else {
+                messageFinal = $"No existe la cantidad suficiente del producto { product.ProductName }.";
+                return;
+            }
+        }
+
+        BusinessInputOutput.InputOutputInsert(inputOutput);
+    }
+
+    private bool IsBiggerThannZero(int quantity, int storageQuantity)
+    {
+        if (storageQuantity > quantity)
+        {
+            return true;
+        }
+
+        return false;
+    }
+}

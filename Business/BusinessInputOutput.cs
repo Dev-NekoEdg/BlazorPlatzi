@@ -17,7 +17,7 @@ namespace Business
             }
         }
 
-        public void InputOutputInsert(InputOutputEntity inputOutputEntity)
+        public static void InputOutputInsert(InputOutputEntity inputOutputEntity)
         {
             using (var contexto = new InventaryContext())
             {
